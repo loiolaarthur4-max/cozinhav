@@ -82,7 +82,30 @@ with col2:
                 cor_alarme = "#16a34a" # Verde
                 cor_fundo = "#dcfce7"
             
-            # Desenha o card do produto na tela do site
+           # Lista os produtos e calcula o alarme automático de dias restantes
+        for item in st.session_state.produtos:
+            hoje = date.today()
+            dias_restantes = (item["validade"] - hoje).days
+            
+            # Lógica Inteligente do Alarme Automático
+            if dias_restantes < 0:
+                status_texto = f"❌ VENCIDO HÁ {abs(dias_restantes)} DIAS!"
+                cor_alarme = "#ef4444" # Vermelho escuro
+                cor_fundo = "#fee2e2"
+            elif dias_restantes <= 3:
+                status_texto = f"🚨 CRÍTICO! Vence em {dias_restantes} dias."
+                cor_alarme = "#dc2626" # Vermelho
+                cor_fundo = "#fee2e2"
+            elif dias_restantes <= 7:
+                status_texto = f"⚠️ ATENÇÃO! Vence em {dias_restantes} dias."
+                cor_alarme = "#d97706" # Laranja/Amarelo
+                cor_fundo = "#fef3c7"
+            else:
+                status_texto = f"✅ Seguro ({dias_restantes} dias restantes)"
+                cor_alarme = "#16a34a" # Verde
+                cor_fundo = "#dcfce7"
+            
+            # CÓDIGO CORRIGIDO COM AS CHAVES DUPLAS {{ }} PARA O CSS NÃO DAR CONFLITO
             st.markdown(f"""
             <div style="padding: 12px; border-radius: 8px; border-left: 6px solid {cor_alarme}; background-color: {cor_fundo}; margin-bottom: 12px; color: #1e293b;">
                 <span style="font-size: 12pt; font-weight: bold;">{item['nome']}</span> <br>
